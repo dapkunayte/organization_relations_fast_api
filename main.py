@@ -66,19 +66,19 @@ def update_user(user_id: int, user: pydantic_models.UserUpdate, db: Session = De
 
 
 @app.get("/organizations/", response_model=list[pydantic_models.Organization])
-def get_autos(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+def get_organizations(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     organizations = al.get_organizations(db, skip=skip, limit=limit)
     return organizations
 
 
 @app.get("/devices/", response_model=list[pydantic_models.Device])
-def get_autos(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+def get_devices(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     devices = al.get_devices(db, skip=skip, limit=limit)
     return devices
 
 
 @app.get("/users/", response_model=list[pydantic_models.User])
-def get_autos(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+def get_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = al.get_users(db, skip=skip, limit=limit)
     return users
 

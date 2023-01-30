@@ -18,7 +18,11 @@ class DeviceBase(BaseModel):
 
 
 class DeviceCreate(DeviceBase):
-    organization_id: int | None
+    organization_id: int
+
+
+class DeviceCreateWithOrganization(DeviceBase):
+    organization: OrganizationBase
 
 
 class UserBase(BaseModel):

@@ -45,6 +45,11 @@ def create_device(device: pydantic_models.DeviceCreate, db: Session = Depends(ge
     return al.create_device(db=db, device=device)
 
 
+@app.post("/devices/with_organization", response_model=pydantic_models.DeviceCreate)
+def create_device_with_organization(device: pydantic_models.DeviceCreateWithOrganization, db: Session = Depends(get_db)):
+    return al.create_device_with_organization(db=db, device=device)
+
+
 @app.put("/devices/{device_id}", response_model=pydantic_models.DeviceCreate)
 def update_device(device_id: str, device: pydantic_models.DeviceUpdate, db: Session = Depends(get_db)):
     return al.update_device(db=db, device_id=device_id, device=device)
@@ -81,6 +86,21 @@ def get_devices(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 def get_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = al.get_users(db, skip=skip, limit=limit)
     return users
+
+
+@app.delete("/organizations/{organization_id}", response_model=list[pydantic_models.Organization])
+def delete_organization(organization_id: int, db: Session = Depends(get_db)):
+    return al.delete_organization(db=db, organization_id=organization_id)
+
+
+@app.delete("/devices/{device_id}", response_model=list[pydantic_models.Device])
+def delete_device(device_id: str, db: Session = Depends(get_db)):
+    return al.delete_device(db=db, device_id=device_id)
+
+
+@app.delete("/users/{user_id}", response_model=list[pydantic_models.User])
+def delete_device(user_id: int, db: Session = Depends(get_db)):
+    return al.delete_user(db=db, user_id=user_id)
 
 
 if __name__ == "__main__":

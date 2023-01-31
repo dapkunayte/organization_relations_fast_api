@@ -99,7 +99,7 @@ def delete_device(device_id: str, db: Session = Depends(get_db)):
 
 
 @app.delete("/users/{user_id}", response_model=list[pydantic_models.User])
-def delete_device(user_id: int, db: Session = Depends(get_db)):
+def delete_user(user_id: int, db: Session = Depends(get_db)):
     return al.delete_user(db=db, user_id=user_id)
 
 

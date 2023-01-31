@@ -124,21 +124,21 @@ def update_user(db: Session, user_id: int, user: pydantic_models.UserUpdate):
 def get_organizations(db: Session, skip: int = 0, limit: int = 100):
     db_organizations = db.query(models.Organization).offset(skip).limit(limit).all()
     if db_organizations is None or db_organizations == []:
-        raise HTTPException(status_code=404, detail="Organizations not found")
+        raise HTTPException(status_code=404, detail="Organization\'s list is empty")
     return db_organizations
 
 
 def get_devices(db: Session, skip: int = 0, limit: int = 100):
     db_devices = db.query(models.Device).offset(skip).limit(limit).all()
     if len(db_devices) == 0:
-        raise HTTPException(status_code=404, detail="Devices not found")
+        raise HTTPException(status_code=404, detail="Device\'s list is empty")
     return db_devices
 
 
 def get_users(db: Session, skip: int = 0, limit: int = 100):
     db_users = db.query(models.User).offset(skip).limit(limit).all()
     if len(db_users) == 0:
-        raise HTTPException(status_code=404, detail="Users not found")
+        raise HTTPException(status_code=404, detail="User\'s list is empty")
     return db_users
 
 
@@ -147,7 +147,7 @@ def delete_organization(db: Session, organization_id: int):
     if db_organization is None:
         raise HTTPException(status_code=400, detail="Organization doesn't exist")
     if len(db_organization.devices) != 0:
-        raise HTTPException(status_code=400, detail="Delete devices first")
+        raise HTTPException(status_code=400, detail="Delete or detach devices first")
     db.delete(db_organization)
     db.commit()
     return get_organizations(db)
@@ -158,7 +158,7 @@ def delete_device(db: Session, device_id: str):
     if db_device is None:
         raise HTTPException(status_code=400, detail="Device doesn't exist")
     if len(db_device.users) != 0:
-        raise HTTPException(status_code=400, detail="Delete users first")
+        raise HTTPException(status_code=400, detail="Delete or detach users first")
     db.delete(db_device)
     db.commit()
     return get_devices(db)
